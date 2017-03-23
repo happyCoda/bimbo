@@ -1,12 +1,13 @@
 {
-  "name": "tp_gulp_essential_tasks",
+  "name": "bimbo",
   "version": "0.0.1",
-  "description": "gulp learning",
+  "description": "A generic project boilerplate",
   "scripts": {},
   "keywords": [
     "gulp",
     "automation",
-    "js"
+    "js",
+    "boilerpalte"
   ],
   "author": "happyCoda",
   "license": "ISC",
