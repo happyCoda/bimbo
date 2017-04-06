@@ -1,11 +1,11 @@
 let gulp = require('gulp'),
   util = require('gulp-util'),
-  rename = require('gulp-rename'),
   source = require('vinyl-source-stream'),
   browserify = require('browserify'),
   eslintify = require('eslintify'),
   uglifyify = require('uglifyify'),
   babelify = require('babelify'),
+  vueify = require('vueify'),
   watchify = require('watchify'),
   config = require('../config');
 
@@ -29,8 +29,7 @@ function bundle(b, done) {
       done();
     }
   })
-  .pipe(source('app.js'))
-  .pipe(rename('bundle.js'))
+  .pipe(source('bundle.js'))
   .pipe(gulp.dest(BUILD_PATH));
 }
 
@@ -42,13 +41,8 @@ module.exports = (watch, done) => {
       packageCache: {}
     })
     .transform(eslintify)
-    .transform(babelify, {
-      presets: ['es2015'],
-      plugins: [
-        'transform-runtime',
-        'transform-regenerator'
-      ]
-    }),
+    .transform(babelify)
+    .transform(vueify),
     args = [b];
 
   if (watch) {
@@ -58,6 +52,7 @@ module.exports = (watch, done) => {
       bundle(b);
     });
   } else {
+    process.env.NODE_ENV = 'production';
     b
     .transform(uglifyify, {
       global: true
