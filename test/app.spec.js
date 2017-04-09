@@ -1,7 +1,7 @@
-describe('application', () => {
-  let app = require('../public/js/src/app');
+import * as app from '../public/js/src/app';
 
-  it('returns a string', () => {
-    expect(typeof app(5).next().value).toBe('number');
+describe('Application', () => {
+  it('imports as an object', () => {
+    expect(typeof app).toBe('object');
   });
 });

@@ -2,18 +2,21 @@ let gulp = require('gulp'),
   util = require('gulp-util'),
   source = require('vinyl-source-stream'),
   browserify = require('browserify'),
+  derequire = require('browserify-derequire'),
   eslintify = require('eslintify'),
   uglifyify = require('uglifyify'),
   babelify = require('babelify'),
   vueify = require('vueify'),
   watchify = require('watchify'),
+  rimraf = require('rimraf'),
   config = require('../config');
-
-const PUBLIC_PATH = config.PUBLIC_PATH;
-const BUILD_PATH = `${PUBLIC_PATH}/js/dest`;
 
 function bundle(b, done) {
   let startBundle = Date.now();
+
+  if (config.CLEAN) {
+    rimraf.sync(`${config.BUILD_PATH_JS}/*`);
+  }
 
   util.log('Bundling js...');
   b.bundle()
@@ -21,25 +24,29 @@ function bundle(b, done) {
     util.log(util.colors.red(err));
   })
   .on('end', () => {
-    let finishBundle = Date.now();
+    if (util.env.type === 'development') {
+      let finishBundle = Date.now();
 
-    util.log(`JS bundle finished in ${util.colors.green((finishBundle - startBundle) + ' ms')}`);
+      util.log(`${util.colors.green('bundle')} finished in ${util.colors.cyan((finishBundle - startBundle) + 'ms')}`);
+    }
 
     if (done) {
       done();
     }
   })
-  .pipe(source('bundle.js'))
-  .pipe(gulp.dest(BUILD_PATH));
+  .pipe(source(config.BUILD_NAME_JS))
+  .pipe(gulp.dest(config.BUILD_PATH_JS));
 }
 
 module.exports = (watch, done) => {
   let b = browserify({
-      basedir: PUBLIC_PATH,
-      entries: 'js/src/app.js',
+      basedir: config.SRC_PATH_JS,
+      entries: config.ENTRY_POINT_JS,
       cache: {},
-      packageCache: {}
+      packageCache: {},
+      standalone: 'Bimbo'
     })
+    .plugin(derequire)
     .transform(eslintify)
     .transform(babelify)
     .transform(vueify),

@@ -3,19 +3,26 @@ let gulp = require('gulp'),
   util = require('gulp-util'),
   rename = require('gulp-rename'),
   path = require('path'),
+  rimraf = require('rimraf'),
   config = require('../config');
 
 module.exports = () => {
-  let src = path.resolve(`${config.PUBLIC_PATH}/css/src/style.less`),
-    dest = `${config.PUBLIC_PATH}/css/dest/`,
+  let src = path.resolve(config.SRC_PATH_CSS, config.ENTRY_POINT_CSS),
+    dest = config.BUILD_PATH_CSS,
     startBundle = Date.now();
+
+  if (config.CLEAN) {
+    rimraf.sync(`${dest}/*`);
+  }
 
   return gulp.src(src)
     .pipe(less())
-    .pipe(rename('bundle.css'))
+    .pipe(rename(config.BUILD_NAME_CSS))
     .pipe(gulp.dest(dest))
     .on('end', () => {
-      let finishBundle = Date.now();
-      util.log(`${util.colors.green('CSS')} task finished in ${finishBundle - startBundle} ms`);
-    });
+      if (util.env.type === 'development') {
+        let finishBundle = Date.now();
+        util.log(`${util.colors.green('css')} finished in ${util.colors.cyan((finishBundle - startBundle) + 'ms')}`);
+      }
+    });;
 };

@@ -16,11 +16,5 @@ module.exports = () => {
     open: false
   });
 
-  // gulp.watch([
-  //   `${PUBLIC_PATH}/js/dest/*.js`,
-  //   `${PUBLIC_PATH}/css/dest/*.css`,
-  //   `${PUBLIC_PATH}/index.html`
-  // ]).on('change', server.reload);
-
   return server;
 };

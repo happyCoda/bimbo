@@ -1,19 +1,23 @@
 let gulp = require('gulp'),
+  util = require('gulp-util'),
   sync = require('./sync'),
   bundle = require('./bundle'),
   css = require('./css'),
   config = require('../config');
 
-const PUBLIC_PATH = config.PUBLIC_PATH;
-
 module.exports = () => {
   let server = sync();
 
+  util.env.type = 'development';
+
   bundle(true);
-  gulp.watch([`${PUBLIC_PATH}/css/src/**/*.less`], css);
-  gulp.watch([
-    `${PUBLIC_PATH}/js/dest/*.js`,
-    `${PUBLIC_PATH}/css/dest/*.css`,
-    `${PUBLIC_PATH}/index.html`
-  ]).on('change', server.reload);
+  gulp
+  .watch([`${config.SRC_PATH_CSS}/**/*.less`], css);
+  gulp
+  .watch([
+    `${config.BUILD_PATH_JS}/*.js`,
+    `${config.BUILD_PATH_CSS}/*.css`,
+    `${config.PUBLIC_PATH}/index.html`
+  ])
+  .on('change', server.reload);
 };
