@@ -28,6 +28,8 @@ gulp bundle
 gulp test
 ```
 
+Also you can setup clean builds for your JS and CSS. By default, when bundling occurs bundle content gets written to the existing bundle file. You can change this behavior by set `CLEAN` option to true in `config.js` file.
+
 ## License
 [MIT](http://opensource.org/licenses/MIT)  
 Copyright (c) 2017, happyCoda

@@ -1,6 +1,6 @@
 {
   "name": "bimbo",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A generic project skeleton",
   "scripts": {},
   "keywords": [
@@ -33,8 +33,9 @@
     "gulp-rename": "^1.2.2",
     "gulp-sequence": "^0.4.6",
     "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.11",
     "jasmine-core": "^2.5.2",
-    "karma": "^1.4.1",
+    "karma": "^1.6.0",
     "karma-browserify": "^5.1.1",
     "karma-es6-shim": "^1.0.0",
     "karma-jasmine": "^1.1.0",
